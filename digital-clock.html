@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Digital Clock - Display current time in multiple time zones with real-time updates">
+  <title>Digital Clock - Multiple Time Zones</title>
+  <link rel="stylesheet" href="clock-styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+</head>
+<body>
+
+<div class="clock-container">
+  
+  <!-- Header -->
+  <header class="clock-header">
+    <h1><i class="ti ti-clock"></i> Digital Clock</h1>
+    <p class="subtitle">Real-time display across multiple time zones</p>
+  </header>
+
+  <!-- Main Controls -->
+  <div class="controls-section">
+    <div class="time-format-toggle">
+      <button class="format-btn active" id="format-24" onclick="setTimeFormat(24)" title="24-hour format">
+        24 Hour
+      </button>
+      <button class="format-btn" id="format-12" onclick="setTimeFormat(12)" title="12-hour format">
+        12 Hour
+      </button>
+    </div>
+
+    <div class="timezone-selector">
+      <label for="timezone-select">Add Time Zone:</label>
+      <select id="timezone-select">
+        <option value="">Select timezone...</option>
+        <option value="UTC">UTC / GMT</option>
+        <option value="America/New_York">New York (EST/EDT)</option>
+        <option value="America/Chicago">Chicago (CST/CDT)</option>
+        <option value="America/Denver">Denver (MST/MDT)</option>
+        <option value="America/Los_Angeles">Los Angeles (PST/PDT)</option>
+        <option value="America/Anchorage">Anchorage (AKST/AKDT)</option>
+        <option value="Pacific/Honolulu">Honolulu (HST)</option>
+        <option value="Europe/London">London (GMT/BST)</option>
+        <option value="Europe/Paris">Paris (CET/CEST)</option>
+        <option value="Europe/Berlin">Berlin (CET/CEST)</option>
+        <option value="Europe/Moscow">Moscow (MSK)</option>
+        <option value="Asia/Dubai">Dubai (GST)</option>
+        <option value="Asia/Kolkata">India (IST)</option>
+        <option value="Asia/Bangkok">Bangkok (ICT)</option>
+        <option value="Asia/Shanghai">Shanghai (CST)</option>
+        <option value="Asia/Tokyo">Tokyo (JST)</option>
+        <option value="Asia/Seoul">Seoul (KST)</option>
+        <option value="Australia/Sydney">Sydney (AEDT/AEST)</option>
+        <option value="Australia/Melbourne">Melbourne (AEDT/AEST)</option>
+        <option value="Pacific/Auckland">Auckland (NZDT/NZST)</option>
+      </select>
+      <button class="btn-add" onclick="addTimezone()" title="Add selected timezone">
+        <i class="ti ti-plus"></i> Add
+      </button>
+    </div>
+  </div>
+
+  <!-- Clocks Grid -->
+  <div class="clocks-grid" id="clocks-grid">
+    <!-- Clocks will be dynamically added here -->
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" id="empty-state">
+    <i class="ti ti-clock-off"></i>
+    <p>No time zones added yet.</p>
+    <p class="hint">Select a timezone above and click "Add" to display it here.</p>
+  </div>
+
+  <!-- Footer -->
+  <footer class="clock-footer">
+    <p>Last updated: <span id="update-time">--:--:--</span></p>
+    <button class="btn-reset" onclick="resetClocks()" title="Remove all time zones">
+      <i class="ti ti-trash"></i> Reset All
+    </button>
+  </footer>
+
+</div>
+
+<script src="clock-script.js"></script>
+
+</body>
+</html>
