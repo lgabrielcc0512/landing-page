@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Digix Dealer Driver Registration - Complete your information to verify your permit status based on your operating city.">
+  <meta name="theme-color" content="#0073b7">
+  <title>Driver Registry - Digix Dealer</title>
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tabler Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+  
+  <!-- Google Analytics (Optional - Uncomment to enable) -->
+  <!-- 
+  <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'GA_MEASUREMENT_ID');
+  </script>
+  -->
+</head>
+<body>
+
+<!-- Background Split Design -->
+<div class="bg-split">
+  <div class="bg-half bg-nyc"></div>
+  <div class="bg-half bg-charlotte"></div>
+</div>
+
+<!-- Main Container -->
+<div class="wrap">
+  
+  <!-- Logo & Branding Header -->
+  <div class="logo-bar">
+    <img src="logoDigixDealer.png" alt="Digix Dealer Logo" class="logo-img">
+    <div class="logo-sub">Driver Recruitment Platform</div>
+  </div>
+
+  <!-- Step Indicator -->
+  <div class="step-indicator" id="steps" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="2">
+    <div class="step-dot active" id="dot1" aria-label="Step 1 - Driver Information"></div>
+    <div class="step-dot" id="dot2" aria-label="Step 2 - Permit Verification"></div>
+  </div>
+
+  <!-- ==================== STEP 1: Driver Information ==================== -->
+  <div id="step1" class="step-section">
+    <h1>Driver Registration</h1>
+    <p class="sub">Complete your information to verify your permit status based on your operating city.</p>
+    
+    <div class="card">
+      <div class="row">
+        <div>
+          <label for="fname">First Name</label>
+          <input 
+            type="text" 
+            id="fname" 
+            placeholder="e.g. John" 
+            required 
+            aria-required="true"
+            autocomplete="given-name"
+          />
+        </div>
+        <div>
+          <label for="lname">Last Name</label>
+          <input 
+            type="text" 
+            id="lname" 
+            placeholder="e.g. Smith" 
+            required 
+            aria-required="true"
+            autocomplete="family-name"
+          />
+        </div>
+      </div>
+      
+      <label for="city">City of Operation</label>
+      <select 
+        id="city" 
+        required 
+        aria-required="true"
+        aria-label="Select your city of operation"
+      >
+        <option value="">Select your city...</option>
+        <option value="Charlotte">Charlotte, NC</option>
+        <option value="NewYork">New York City, NY</option>
+        <option value="LongIsland">Long Island, NY</option>
+      </select>
+      
+      <button class="btn-primary" onclick="handleContinue()" aria-label="Continue to permit verification">
+        Continue <i class="ti ti-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== STEP 2: Permit Verification ==================== -->
+  <div id="step2" class="step-section pvh-section">
+    <div class="card">
+      
+      <!-- Greeting Section -->
+      <div id="greeting" class="greeting" role="status"></div>
+      <div id="greeting-sub" class="greeting-sub" role="status"></div>
+
+      <!-- ==================== Charlotte Block ==================== -->
+      <div id="charlotte-block" style="display:none;">
+        <p class="section-label">Do you hold an active City of Charlotte PVH Permit?</p>
+        
+        <div class="pvh-options" role="group" aria-label="Charlotte PVH Permit Status">
+          <!-- Yes Button -->
+          <div 
+            class="pvh-btn" 
+            id="btn-pvh-yes" 
+            onclick="selectPVH('yes')"
+            role="button"
+            tabindex="0"
+            aria-label="Yes, I have an active Charlotte PVH Permit"
+          >
+            <i class="ti ti-circle-check" aria-hidden="true"></i>
+            <div class="btn-label">Yes, I have a PVH Permit</div>
+            <div class="btn-sub">Active and valid permit</div>
+          </div>
+          
+          <!-- No Button -->
+          <div 
+            class="pvh-btn" 
+            id="btn-pvh-no" 
+            onclick="selectPVH('no')"
+            role="button"
+            tabindex="0"
+            aria-label="No, but I want to obtain a Charlotte PVH Permit"
+          >
+            <i class="ti ti-circle-x" style="color:#b94040;" aria-hidden="true"></i>
+            <div class="btn-label">No, but I want to obtain it</div>
+            <div class="btn-sub">Need to get certified</div>
+          </div>
+        </div>
+        
+        <!-- Success Alert -->
+        <div class="alert-box alert-success" id="alert-pvh-yes" role="alert">
+          <i class="ti ti-shield-check" style="font-size:20px; margin-bottom:4px; display:block;" aria-hidden="true"></i>
+          <div class="alert-title">PVH Permit Verified</div>
+          <div class="alert-body">Excellent! Your PVH permit authorizes you to transport passengers within Charlotte city limits. Remember to renew it annually.</div>
+        </div>
+        
+        <!-- Warning Alert -->
+        <div class="alert-box alert-warning" id="alert-pvh-no" role="alert">
+          <i class="ti ti-alert-triangle" style="font-size:20px; margin-bottom:4px; display:block;" aria-hidden="true"></i>
+          <div class="alert-title">PVH Permit Required</div>
+          <div class="alert-body">To operate as a driver in Charlotte, you must schedule and attend an appointment at the Charlotte PVH office. Use the link below to request your slot.</div>
+          
+          <!-- Appointment Card -->
+          <div class="appt-card" id="appt-pvh-card" style="display:none;">
+            <div class="appt-title">Charlotte PVH Office — Appointment Required</div>
+            <div class="appt-name">Charlotte-Mecklenburg Police Dept.</div>
+            <div class="appt-detail">
+              <i class="ti ti-map-pin" aria-hidden="true"></i>
+              <span>4150 Wilkinson Blvd, Charlotte, NC 28208</span>
+            </div>
+            <div class="appt-detail">
+              <i class="ti ti-clock" aria-hidden="true"></i>
+              <span>Mon–Thu: 8–11 AM / 1–4 PM · Fri: 8–11 AM</span>
+            </div>
+            <a class="appt-link" href="https://www.charlottenc.gov/cmpd/Our-Organization/PVH" target="_blank" rel="noopener noreferrer">
+              <i class="ti ti-calendar-event" aria-hidden="true"></i> Schedule PVH Appointment
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== NYC Block ==================== -->
+      <div id="nyc-block" style="display:none;">
+        <p class="section-label">Do you possess an active NYC TLC Driver's License?</p>
+        
+        <div class="pvh-options" role="group" aria-label="NYC TLC License Status">
+          <!-- Yes Button -->
+          <div 
+            class="pvh-btn" 
+            id="btn-tlc-yes" 
+            onclick="selectTLC('yes')"
+            role="button"
+            tabindex="0"
+            aria-label="Yes, I have an active NYC TLC Driver's License"
+          >
+            <i class="ti ti-id-badge-2" aria-hidden="true"></i>
+            <div class="btn-label">Yes, I have a TLC License</div>
+            <div class="btn-sub">Active and valid license</div>
+          </div>
+          
+          <!-- No Button -->
+          <div 
+            class="pvh-btn" 
+            id="btn-tlc-no" 
+            onclick="selectTLC('no')"
+            role="button"
+            tabindex="0"
+            aria-label="No, but I want to obtain an NYC TLC Driver's License"
+          >
+            <i class="ti ti-id-off" style="color:#b94040;" aria-hidden="true"></i>
+            <div class="btn-label">No, but I want to obtain it</div>
+            <div class="btn-sub">Need to start application</div>
+          </div>
+        </div>
+        
+        <!-- Success Alert -->
+        <div class="alert-box alert-success" id="alert-tlc-yes" role="alert">
+          <i class="ti ti-shield-check" style="font-size:20px; margin-bottom:4px; display:block;" aria-hidden="true"></i>
+          <div class="alert-title">TLC Driver's License Active</div>
+          <div class="alert-body">Great! Your NYC TLC license authorizes you to operate across the five boroughs of New York City. Keep your credentials up to date.</div>
+        </div>
+        
+        <!-- Warning Alert -->
+        <div class="alert-box alert-warning" id="alert-tlc-no" role="alert">
+          <i class="ti ti-alert-triangle" style="font-size:20px; margin-bottom:4px; display:block;" aria-hidden="true"></i>
+          <div class="alert-title">NYC TLC License Required</div>
+          <div class="alert-body">An active TLC Driver License is mandatory to operate in NYC. Below is the information to fulfill requirements and book your mandatory appointment.</div>
+          
+          <!-- TLC Information Card -->
+          <div class="appt-card" id="tlc-info-card" style="display:none;">
+            <div class="appt-title">NYC Taxi & Limousine Commission</div>
+            <div class="appt-name">TLC Driver License Application Hub</div>
+            <div class="appt-detail">
+              <i class="ti ti-map-pin" aria-hidden="true"></i>
+              <span>31-00 47th Ave, Long Island City, NY 11101</span>
+            </div>
+            <div class="appt-detail">
+              <i class="ti ti-info-circle" aria-hidden="true"></i>
+              <span>Requires: DMV License, Medical Exam, Defensive Driving & Background Check.</span>
+            </div>
+            <a class="appt-link" href="https://www.nyc.gov/site/tlc/drivers/tlc-driver-license.page" target="_blank" rel="noopener noreferrer">
+              <i class="ti ti-calendar-event" aria-hidden="true"></i> View Requirements & Book TLC Appointment
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== Long Island Block ==================== -->
+      <div id="li-block" style="display:none;">
+        <div class="info-card">
+          <i class="ti ti-map-2 info-icon" aria-hidden="true"></i>
+          <div class="info-title">Long Island — No Additional Local Permit Required</div>
+          <div class="info-body">Nassau and Suffolk Counties do not require a separate municipal driver permit like NYC or Charlotte. You only need to fulfill standard New York State DMV regulations to proceed. No further actions are needed here.</div>
+        </div>
+      </div>
+
+      <!-- Back Button -->
+      <button class="back-btn" onclick="goBack()" aria-label="Go back to Step 1">
+        <i class="ti ti-arrow-left" aria-hidden="true"></i> Back to step 1
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<!-- External JavaScript -->
+<script src="script.js"></script>
+
+</body>
+</html>
